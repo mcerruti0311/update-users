@@ -12,12 +12,13 @@ boolean runUpdate = false;
 // Lookup new manager
 List<user> managers =
   [
-  SELECT
-    Id,
-    Name
-  FROM User
-  WHERE Name = :newManager
-  LIMIT 1
+    SELECT
+      Id,
+      Name
+    FROM User
+    // use employee number
+    WHERE Name = :newManager
+    LIMIT 1
   ];
 
 system.assert(managers[0].Name  == newManager, 'Not the Expected Manager');
@@ -34,6 +35,7 @@ List<user> directors =
     WHERE Name = :newDirector
     LIMIT 1
   ];
+// size greater than size 0 assert
 
 system.assert(directors[0].Name  == newDirector, 'Not the Expected Director');
 system.debug('Director: ' + directors[0].Name);
@@ -107,6 +109,7 @@ system.debug('user size:' + users.size());
 for(User usersToUpdate : users) {
   if(updateManager) {
     usersToUpdate.ManagerId = managers[0].Id;
+    // add back log of users 
   }
 
   if(updateDirector) {
